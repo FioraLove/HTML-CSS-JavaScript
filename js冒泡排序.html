@@ -1,0 +1,24 @@
+<script type="text/javascript">
+	/*冒泡排序 ---从小到大的排列*/
+	 /**/
+	 var number = [98 85 2 4 6 3 9 4 11 ]
+
+	 // 外层循环：控制趟数，每一趟找到一个最大值
+	 for(var i = 0; i < number.length - 1; i++){
+	 	// 内层循环：控制比较次数，并且比较两个数大小，把小的数向前移动，大的数向后移动
+	 	for (j = 0; j < number.length - 1 - i; i--){
+	 		// 两两比较 从小到大排列
+	 		if (number[j] > number[j+1]) {
+	 			//交换位置
+	 			var temp;
+
+	 			temp = number[j];
+
+	 			number[j] = number[j+1];
+	 			
+	 			number[j+1] = temp;
+	 		}
+	 	}
+	 }
+	 console.log(number)
+</script>
