@@ -1,7 +1,6 @@
 [PHP文档](https://www.php.net/manual/zh/index.php)<br>
 
-<img src="http://pic1.win4000.com/mobile/e/5796bdad62afe.jpg" height="600px"/><br>
-									   
+<img src="../PHP/images/5796bdad62afe.jpg" width=50% height=50% /><br>									   
 ##  ```PHP语法```
 
 ##### 1. 变量
