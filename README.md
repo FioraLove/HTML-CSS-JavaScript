@@ -1,5 +1,5 @@
 # ```HTML知识点```<br>
-<img src="" height=""/><br>
+<img src="PHP/images/5ccf9d5619ba5.jpg" height=50% width=50%/><br>
 
 ## 1.1 HTML视频Video播放
     最好的 HTML 解决方法：
@@ -134,7 +134,7 @@
 
         下拉框显示不出来 -> 外层设置overflow：auto
         注意：下拉框的父容器是body
-##### -9.<img>标签
+##### -9.\<img>标签
     -和h系列标签/p标签还有hr标签不一样，img标签不会独占一行，如果我们手动指定了img标签显示的图片的宽度和高度，有可能会导致图片变形，那么如果又想指定宽度和高度，
     <img src="当前电脑图片的路径" width="200px" height="200px" />
    
