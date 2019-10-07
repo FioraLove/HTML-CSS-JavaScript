@@ -1,9 +1,5 @@
-# Vue.js - Day1
-
-## 课程介绍
-前5天： 都在学习Vue基本的语法和概念；打包工具 Webpack , Gulp
-后5天： 以项目驱动教学；
-
+## Vue.js - Day1 [Vue.js官方文档](https://cn.vuejs.org/v2/guide/list.html) <br>
+<img src="../PHP/images/5d5e5c81e9157.jpg" width=50% height=50%/><br>
 
 ### 什么是Vue.js
 
@@ -19,7 +15,7 @@
 
 
 
-## 为什么要学习流行框架
+### 为什么要学习流行框架
  + 企业为了提高开发效率：在企业中，时间就是效率，效率就是金钱；
   - 企业中，使用框架，能够提高开发的效率；
 
@@ -34,7 +30,7 @@
   - 人无我有，人有我优
   - 你平时不忙的时候，都在干嘛？
 
-## 框架和库的区别
+### 框架和库的区别
 
 
 
@@ -42,737 +38,375 @@
 
   - node 中的 express；
 
-
-
  + 库（插件）：提供某一个小功能，对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其它库实现需求。
   - 1. 从Jquery 切换到 Zepto
   - 2. 从 EJS 切换到 art-template
 
-
-
-
-
-
-
-## Node（后端）中的 MVC 与 前端中的 MVVM 之间的区别
+### Node（后端）中的 MVC 与 前端中的 MVVM 之间的区别
 
  + MVC 是后端的分层开发概念；
  + MVVM是前端视图层的概念，主要关注于 视图层分离，也就是说：MVVM把前端的视图层，分为了 三部分 Model, View , VM ViewModel
 
  + 为什么有了MVC还要有MVVM
+ 
+ Vue
+
+## 1. v-cloak:消除插值表达式闪烁问题
+	ps：小贴士
+	methods:{
+            showHandler(){    // 等价于showHandler:function(){}
+                pass
+                }
+
+## 2. v-model 指令用来在 input、select、textarea、checkbox、radio  等表单控件元素上创建双向数据绑定，
+	根据表单上的值，自动更新绑定的元素的值。
+
+## 3. v-on(缩写为@):表示事件处理器
+
+	   ```3.1 事件的监听：```
+		<div id="app">
+		  <button v-on:click="counter += 1">增加 1</button>
+		  <p>这个按钮被点击了 {{ counter }} 次。</p>
+		  <p>这个按钮被点击了 {{ printer(i) }} 次。</p>
+		</div>
+		<script>
+		new Vue({
+		  el: '#app',
+		  data: {
+			counter: 0
+		  },
+		  methods:{
+		  printer(i){
+		  return this.counter+i
+		})
+		</script>
+		-在vue中，使用事件绑定机制，为元素指定处理函数时，如果加了小括号，就可以给函数传参数了
+
+	   ```-3.2 可监听新定义的方法```
+
+	  ``` -3.3 v-on 与 v-if 联合使用```
+			<div class="box" v-on:click="isShow=false" v-if="isShow"></div>:点击box后，isShow赋值为false，由于数据驱动视图，box消失
+			这段代码的含义是，首先会执行v-if，判断是否为true，若为true，则执行这段代码；
+			若为false,当鼠标点击按钮时，监听v-on:click就开始执行，并使得isShow=false
+
+	  ```-3.4 键盘监听事件：keydown，keyup```
+		按键修饰符：
+	
+	@keyup.13 回车
+
+    @keyup.enter 回车
+    
+    @keyup.left 左键
+    
+    @keyup.right 右键
+    
+    @keyup.up 上键
+    
+    @keyup.down 下键
+    
+    @keyup.delete 删除键
+    案例：
+     <div id="app">
+    <!-- 按enter键 抬起触发 -->
+    <input type="text" v-model="msg" @keyup.enter="fn">按键盘enter键触发{{msg}}<br>
+    <input type="text" v-model="message" @keyup.13="greet(hi)">按键盘enter键触发{{message}}<br>
+
+    <!-- 按"删除"和"退格"键 抬起触发 -->
+    <input type="text" @keyup.delete="fn">按键盘"删除"和"退格"键触发<br>
+
+    <!-- 按tab键 抬起触发 -->
+    <input type="text" @keyup.tab="fn">按键盘tab键触发<br>
+
+    <!-- 按 esc 键 抬起触发 -->
+    <input type="text" @keyup.esc="fn">按键盘 esc 键触发<br>
+
+    <!-- 按 space 键 抬起触发 -->
+    <input type="text" @keyup.space="fn">按键盘 space 键触发<br>
+
+    <!-- 按 上 下 左 右 键 抬起触发 -->
+    <input type="text" @keyup.up="fn">按键盘 up 键触发<br>
+    <input type="text" @keyup.down="fn">按键盘 down 键触发<br>
+    <input type="text" @keyup.left="fn">按键盘 left 键触发<br>
+    <input type="text" @keyup.right="fn">按键盘 right 键触发<br>
 
 
+    <!-- 只要 Ctrl 被按下并点击就触发 -->
+    <button @click.ctrl="fn">按ctrl键并点击触发</button>
+    <!--（exact精确按下某键） 有且只有 Ctrl 被按下并点击的时候才触发 -->
+    <button @click.ctrl.exact="fn">按ctrl键并点击触发</button>
+    </div>
+    
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                msg:'',
+                message:'null',
+            },
+            methods: {
+                fn() {
+                    alert(this.msg)
+                },
+                greet(){
+                    alert(this.message)
+                }
+            }
+        })
+    </script>   
+4. v-bind：绑定属性=>class 与 style 是 HTML 元素的属性，用于设置元素的样式，我们可以用 v-bind 来设置样式属性
 
-## Vue.js 基本代码 和 MVVM 之间的对应关系
+		实例中将 isActive 设置为 true 显示了一个绿色的 div 块，如果设置为 false 则不显示：
+
+		4.1:绑定字符串
+			<body>
+			<div id="app">
+				<h3 v-show="isShow" v-bind:title="title">我是一个三级标题</h3>
+				<img v-bind:src="imgSrc" v-bind:title="time">
+			</div>
+		<script type="text/javascript" src="./vue.js"></script>
+		<script type="text/javascript">
+			// 指令系统 v-*
+			var app = new Vue({
+				el: "#app",
+				data: {
+					msg: "今天学习vue",
+					show: true,
+					isShow: true,
+					title: "哈哈哈2323",
+					imgSrc: './shiyuan.jpeg',
+					time: `页面加载于${new Date().toLocaleString()}` //表示当前时间
+				}
+			})
+		</script>
+		</body>
+
+		4.2 绑定HTML Class：，在vue中可以直接使用v-bind:class来给每个标签元素添加class
+
+		4.3 数组语法：我们可以把一个数组传给v-bind:class,以应用一个 class 列表
+		<div v-bind:class="[activeClass, errorClass]"></div>
+
+		data: {
+		  activeClass: 'active',
+		  errorClass: 'text-danger'
+		}
+		　　渲染为：
+		<div class="active text-danger"></div>
+		　　如果你也想根据条件切换列表中的 class，可以用三元表达式：
+		<div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+		　　这样写将始终添加 errorClass，但是只有在 isActive 是 true时才添加 activeClass。
+
+		　　不过，当有多个条件 class 时这样写有些繁琐。所以在数组语法中也可以使用对象语法：
+		<div v-bind:class="[{ active: isActive }, errorClass]"></div>
+    
+    4.4 在data上定义
+        data: {
+            style_data: { color: 'red', 'font-size': '40px', 'font-weight': '200' }
+        }
+        在元素中，通过属性绑定的形式，将样式对象应用到元素中：
+        <h1 :style="style_data">这是一个善良的H1</h1>
 
 
-## Vue之 - `基本的代码结构`和`插值表达式`、`v-cloak`
+## 5. vue 获取当前时间=>time: `页面加载于${new Date().toLocaleString()}`
 
+## 6. vue的v-show:每次不会重新进行DOM的删除和创建的操作，只是切换了元素的display:none样式
 
-## Vue指令之`v-text`和`v-html`
+	   vue的v-if：表示判断，能够重新创建1和删除元素（如果元素涉及到频繁的切换，最好不用v-if）
+	   区别：如果条件为false时，v-if直接就不会渲染这个语句，而v-show会渲染语句，只是不显示出来
 
+## 7. v-if
+   ```7.1 v-if 指令用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。```
+    
+    <h1 v-if="awesome">Vue is awesome!</h1>
+    也可以用 v-else 添加一个“else 块”：
+    
+    <h1 v-if="awesome">Vue is awesome!</h1>
+    <h1 v-else>Oh no 😢</h1> 
+   ```7.2 用 key 管理可复用的元素:Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。```
+   
+    这么做除了使 Vue 变得非常快之外，还有其它一些好处。例如，如果你允许用户在不同的登录方式之间切换：
 
-## Vue指令之`v-bind`的三种用法
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input placeholder="Enter your username">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input placeholder="Enter your email address">
+    </template>
+   
+  7.3 所以 Vue 为你提供了一种方式来表达“这两个元素是完全独立的，不要复用它们”。只需添加一个具有唯一值的 key 属性即可：
 
-1. 直接使用指令`v-bind`
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input placeholder="Enter your username" key="username-input">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input placeholder="Enter your email address" key="email-input">
+    </template>
+  -注意，<label> 元素仍然会被高效地复用，因为它们没有添加 key 属性。
+  
+  7.4 v-show:
+  
+    另一个用于根据条件展示元素的选项是 v-show 指令。用法大致一样：
+    <h1 v-show="ok">Hello!</h1>
+    不同的是带有 v-show 的元素始终会被渲染并保留在 DOM 中。v-show 只是简单地切换元素的 CSS 属性 display。
 
-2. 使用简化指令`:`
-
-3. 在绑定的时候，拼接绑定内容：`:title="btnTitle + ', 这是追加的内容'"`
-
-
-## Vue指令之`v-on`和`跑马灯效果`
-
-
-
-### 跑马灯效果
-
-1. HTML结构：
-
-```
-
-<div id="app">
-
-    <p>{{info}}</p>
-
-    <input type="button" value="开启" v-on:click="go">
-
-    <input type="button" value="停止" v-on:click="stop">
-
-  </div>
-
-```
-
-2. Vue实例：
-
-```
-
-	// 创建 Vue 实例，得到 ViewModel
-
-    var vm = new Vue({
-
-      el: '#app',
-
+## 8.v-for
+    在 v-for 块中，我们可以访问所有父作用域的属性。v-for 还支持一个可选的第二个参数，即当前项的索引
+    <ul id="example-2">
+      <li v-for="(item, index) in items">
+        {{ parentMessage }} - {{ index }} - {{ item.message }}
+      </li>
+    </ul>
+    
+    var example2 = new Vue({
+      el: '#example-2',
       data: {
+        parentMessage: 'Parent',
+        items: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    })
+    结果：
+    Parent - 0 - Foo
+    Parent - 1 - Bar
+    
+	   -利用v-for渲染的动态选项：
+	   <select v-model="selected">
+		  <option v-for="option in options" v-bind:value="option.value">
+			{{ option.text }}
+		  </option>
+		</select>
+		<span>Selected: {{ selected }}</span>
+		在JavaScript中的
+			new Vue({
+			  el: '...',
+			  data: {
+				selected: 'A',
+				options: [
+				  { text: 'One', value: 'A' },
+				  { text: 'Two', value: 'B' },
+				  { text: 'Three', value: 'C' }
+				]
+			  }
+			})
 
-        info: '猥琐发育，别浪~！',
+## 9.数组更新检测
+#### 变异方法
 
-        intervalId: null
+    Vue 将被侦听的数组的变异方法进行了包裹，所以它们也将会触发视图更新。这些被包裹过的方法包括：
+    push()
+    pop()
+    shift()
+    unshift()
+    splice()
+    sort()
+    reverse()
+    替换数组
+    变异方法，顾名思义，会改变调用了这些方法的原始数组。
+    相比之下，也有非变异 (non-mutating method) 方法，例如 filter()、concat() 和 slice() 。
+    它们不会改变原始数组，而总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：
 
+## 10 事件修饰符
+为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
+
+    .stop
+    .prevent
+    .capture
+    .self
+    .once
+    .passive
+    
+    <!-- 阻止单击事件继续传播 -->
+    <a v-on:click.stop="doThis"></a>
+    
+    <!-- 点击事件将只会触发一次 -->
+    <a v-on:click.once="doThis"></a>
+    
+    <!-- 提交事件不再重载页面 -->
+    <form v-on:submit.prevent="onSubmit"></form>
+    
+    <!-- 修饰符可以串联 -->
+    <a v-on:click.stop.prevent="doThat"></a>
+    
+    <!-- 只有修饰符 -->
+    <form v-on:submit.prevent></form>
+    
+    <!-- 添加事件监听器时使用事件捕获模式 -->
+    <!-- 即内部元素触发的事件先在此处理，然后才交由内部元素进行处理 -->
+    <div v-on:click.capture="doThis">...</div>
+    
+    <!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+    <!-- 即事件不是从内部元素触发的 -->
+    <div v-on:click.self="doThat">...</div>
+
+## 键盘修饰符以及自定义的键盘修饰符
+   1.通过Vue.config.keyCodes.名称 = 按键值 来自定义按键修饰符
+    -Vue.config.keyCodes.f2 = 113;
+    
+   2.使用自定义等待按键修饰符
+   <input type="text" v-model="name" @keyup.f2="add">:v-model双向绑定文本表单
+   ，并监听事件处理函数keyup
+   
+## 11.过滤器的定义语法
+    Vue.filter('过滤器名称',function(){})
+    
+    过滤器中的function，第一个参数，已经被规定死了，永远都是 过滤器 管道符前面传递过来的数据
+    eg： Vue.filter('过滤器的名称',function(data){
+                     return data+'1123'
+                     }) 
+ 
+ ## 12.自定义全局和局部的自定义指令：三个方法bind,inserted,updated
+     // 自定义全局指令 v-focus，为绑定的元素自动获取焦点：
+    
+    // 使用  Vue.directive() 定义全局的指令  v-focus
+        参数1 ： 指令的名称，注意，在定义的时候，指令的名称前面，不需要加 v- 前缀, 但是： 在调用的时候，必须 在指令名称前 加上 v- 前缀来进行调用
+        参数2： 是一个对象，这个对象身上，有一些指令相关的函数，这些函数可以在特定的阶段，执行相关的操作
+        
+        Vue.directive('focus', {
+          bind: function (el) { // 每当指令绑定到元素上的时候，会立即执行这个 bind 函数，只执行一次
+            // 注意： 在每个 函数中，第一个参数，永远是 el ，表示 被绑定了指令的那个元素，这个 el 参数，是一个原生的JS对象
+            // 在元素 刚绑定了指令的时候，还没有 插入到 DOM中去，这时候，调用 focus 方法没有作用
+            //  因为，一个元素，只有插入DOM之后，才能获取焦点
+            // el.focus()
+          },
+          inserted: function (el) {  // inserted 表示元素 插入到DOM中的时候，会执行 inserted 函数【触发1次】
+            el.focus()
+            // 和JS行为有关的操作，最好在 inserted 中去执行，放置 JS行为不生效
+          },
+          updated: function (el) {  // 当VNode更新的时候，会执行 updated， 可能会触发多次
+          }
+        })
+#### 自定义一个 设置字体颜色的指令
+    Vue.directive('color', {
+      // 样式，只要通过指令绑定给了元素，不管这个元素有没有被插入到页面中去，这个元素肯定有了一个内联的样式
+      // 将来元素肯定会显示到页面中，这时候，浏览器的渲染引擎必然会解析样式，应用给这个元素
+      bind: function (el, binding) {
+        // el.style.color = 'red'
+        // console.log(binding.name)
+        // 和样式相关的操作，一般都可以在 bind 执行
+        // console.log(binding.value)
+        // console.log(binding.expression)
+        el.style.color = binding.value
+      }
+    })
+
+## 13.组件component
+    简单的Vue组件示例：
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('button-counter', {
+      data: function () {
+        return {
+          count: 0
+        }
       },
+      template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })  
 
-      methods: {
-
-        go() {
-
-          // 如果当前有定时器在运行，则直接return
-
-          if (this.intervalId != null) {
-
-            return;
-
-          }
-
-          // 开始定时器
-
-          this.intervalId = setInterval(() => {
-
-            this.info = this.info.substring(1) + this.info.substring(0, 1);
-
-          }, 500);
-
-        },
-
-        stop() {
-
-          clearInterval(this.intervalId);
-
-        }
-
-      }
-
-    });
-
-```
-
-
-
-
-
-
-
-## Vue指令之`v-on的缩写`和`事件修饰符`
-
-
-
-### 事件修饰符：
-
-+ .stop       阻止冒泡
-      
-      <!---Vue中提供了v-on：事件绑定机制：可用被简写为一个（@要绑定的事件机制）-->>
-      <!--@要绑定的事件机制.stop :阻止冒泡-->
-      <div class="inner" @click="divinner">
-                <input type="button" value="anniu" @click.stop="show">
-        </div>
-      <script type="text/javascript">
-          new Vue({
-              el: ".app", //绑定Div元素
-              data: {
-                  msg:"hello python" ,//数据源
-                  mytitle:"this is my title"
-              },
-              methods:{ //这个methods属性定义了当前vue实例所有可用的方法
-                  show(){
-                      console.log('这是触发了 button div的按钮点击事件')
-                  },
-                  divinner(){
-                      console.log('这是触发了 inner div的点击事件')
-                  }
-
-              }
-          })
-      </script>
-
-+ .prevent    阻止默认事件
-
-+ .capture    添加事件侦听器时使用事件捕获模式
-
-+ .self       只当事件在该元素本身（比如不是子元素）触发时触发回调
-
-+ .once       事件只触发一次
-
-
-
-
-
-
-
-## Vue指令之`v-model`和`双向数据绑定`
-
-
-
-
-
-
-
-## 简易计算器案例
-
-1. HTML 代码结构
-
-```
-
-  <div id="app">
-
-    <input type="text" v-model="n1">
-
-    <select v-model="opt">
-
-      <option value="0">+</option>
-
-      <option value="1">-</option>
-
-      <option value="2">*</option>
-
-      <option value="3">÷</option>
-
-    </select>
-
-    <input type="text" v-model="n2">
-
-    <input type="button" value="=" v-on:click="getResult">
-
-    <input type="text" v-model="result">
-
-  </div>
-
-```
-
-2. Vue实例代码：
-
-```
-
-	// 创建 Vue 实例，得到 ViewModel
-
-    var vm = new Vue({
-
-      el: '#app',
-
-      data: {
-
-        n1: 0,
-
-        n2: 0,
-
-        result: 0,
-
-        opt: '0'
-
-      },
-
-      methods: {
-
-        getResult() {
-
-          switch (this.opt) {
-
-            case '0':
-
-              this.result = parseInt(this.n1) + parseInt(this.n2);
-
-              break;
-
-            case '1':
-
-              this.result = parseInt(this.n1) - parseInt(this.n2);
-
-              break;
-
-            case '2':
-
-              this.result = parseInt(this.n1) * parseInt(this.n2);
-
-              break;
-
-            case '3':
-
-              this.result = parseInt(this.n1) / parseInt(this.n2);
-
-              break;
-
-          }
-
-        }
-
-      }
-
-    });
-
-```
-
-
-
-
-
-
-
-
-
-## 在Vue中使用样式
-
-
-
-### 使用class样式
-
-1. 数组
-```
-<h1 :class="['red', 'thin']">这是一个邪恶的H1</h1>
-```
-
-2. 数组中使用三元表达式
-```
-<h1 :class="['red', 'thin', isactive?'active':'']">这是一个邪恶的H1</h1>
-```
-
-3. 数组中嵌套对象
-```
-<h1 :class="['red', 'thin', {'active': isactive}]">这是一个邪恶的H1</h1>
-```
-
-4. 直接使用对象
-```
-<h1 :class="{red:true, italic:true, active:true, thin:true}">这是一个邪恶的H1</h1>
-```
-
-
-
-### 使用内联样式
-
-1. 直接在元素上通过 `:style` 的形式，书写样式对象
-```
-<h1 :style="{color: 'red', 'font-size': '40px'}">这是一个善良的H1</h1>
-```
-
-2. 将样式对象，定义到 `data` 中，并直接引用到 `:style` 中
- + 在data上定义样式：
-```
-data: {
-        h1StyleObj: { color: 'red', 'font-size': '40px', 'font-weight': '200' }
-}
-```
- + 在元素中，通过属性绑定的形式，将样式对象应用到元素中：
-```
-<h1 :style="h1StyleObj">这是一个善良的H1</h1>
-```
-
-3. 在 `:style` 中通过数组，引用多个 `data` 上的样式对象
- + 在data上定义样式：
-```
-data: {
-        h1StyleObj: { color: 'red', 'font-size': '40px', 'font-weight': '200' },
-        h1StyleObj2: { fontStyle: 'italic' }
-}
-```
- + 在元素中，通过属性绑定的形式，将样式对象应用到元素中：
-```
-<h1 :style="[h1StyleObj, h1StyleObj2]">这是一个善良的H1</h1>
-```
-
-
-
-## Vue指令之`v-for`和`key`属性
-
-1. 迭代数组
-
-```
-<ul>
-  <li v-for="(item, i) in list">索引：{{i}} --- 姓名：{{item.name}} --- 年龄：{{item.age}}</li>
-</ul>
-```
-
-2. 迭代对象中的属性
-
-```
-
-	<!-- 循环遍历对象身上的属性 -->
-
-    <div v-for="(val, key, i) in userInfo">{{val}} --- {{key}} --- {{i}}</div>
-
-```
-
-3. 迭代数字
-
-```
-
-<p v-for="i in 10">这是第 {{i}} 个P标签</p>
-
-```
-
-
-
-> 2.2.0+ 的版本里，**当在组件中使用** v-for 时，key 现在是必须的。
-
-
-
-当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用 “**就地复用**” 策略。如果数据项的顺序被改变，Vue将**不是移动 DOM 元素来匹配数据项的顺序**， 而是**简单复用此处每个元素**，并且确保它在特定索引下显示已被渲染过的每个元素。
-
-
-
-为了给 Vue 一个提示，**以便它能跟踪每个节点的身份，从而重用和重新排序现有元素**，你需要为每项提供一个唯一 key 属性。
-
-
-
-
-
-
-
-## Vue指令之`v-if`和`v-show`
-
-
-
-
-
-
-
-> 一般来说，v-if 有更高的切换消耗而 v-show 有更高的初始渲染消耗。因此，如果需要频繁切换 v-show 较好，如果在运行时条件不大可能改变 v-if 较好。
-
-
-
-
-
-
-
-## 品牌管理案例
-
-
-
-### 添加新品牌
-
-
-
-### 删除品牌
-
-
-
-### 根据条件筛选品牌
-
-1. 1.x 版本中的filterBy指令，在2.x中已经被废除：
-
-[filterBy - 指令](https://v1-cn.vuejs.org/api/#filterBy)
-
-```
-
-<tr v-for="item in list | filterBy searchName in 'name'">
-
-  <td>{{item.id}}</td>
-
-  <td>{{item.name}}</td>
-
-  <td>{{item.ctime}}</td>
-
-  <td>
-
-    <a href="#" @click.prevent="del(item.id)">删除</a>
-
-  </td>
-
-</tr>
-
-```
-
-2. 在2.x版本中[手动实现筛选的方式](https://cn.vuejs.org/v2/guide/list.html#显示过滤-排序结果)：
-
-+ 筛选框绑定到 VM 实例中的 `searchName` 属性：
-
-```
-
-<hr> 输入筛选名称：
-
-<input type="text" v-model="searchName">
-
-```
-
-+ 在使用 `v-for` 指令循环每一行数据的时候，不再直接 `item in list`，而是 `in` 一个 过滤的methods 方法，同时，把过滤条件`searchName`传递进去：
-
-```
-
-<tbody>
-
-      <tr v-for="item in search(searchName)">
-
-        <td>{{item.id}}</td>
-
-        <td>{{item.name}}</td>
-
-        <td>{{item.ctime}}</td>
-
-        <td>
-
-          <a href="#" @click.prevent="del(item.id)">删除</a>
-
-        </td>
-
-      </tr>
-
-    </tbody>
-
-```
-
-+ `search` 过滤方法中，使用 数组的 `filter` 方法进行过滤：
-
-```
-
-search(name) {
-
-  return this.list.filter(x => {
-
-    return x.name.indexOf(name) != -1;
-
-  });
-
-}
-
-```
-
-
-
-
-
-
-
-## Vue调试工具`vue-devtools`的安装步骤和使用
-
-[Vue.js devtools - 翻墙安装方式 - 推荐](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=zh-CN)
-
-
-
-
-
-## 过滤器
-
-概念：Vue.js 允许你自定义过滤器，**可被用作一些常见的文本格式化**。过滤器可以用在两个地方：**mustache 插值和 v-bind 表达式**。过滤器应该被添加在 JavaScript 表达式的尾部，由“管道”符指示；
-
-### 私有过滤器
-
-1. HTML元素：
-
-```
-
-<td>{{item.ctime | dataFormat('yyyy-mm-dd')}}</td>
-
-```
-
-2. 私有 `filters` 定义方式：
-
-```
-
-filters: { // 私有局部过滤器，只能在 当前 VM 对象所控制的 View 区域进行使用
-
-    dataFormat(input, pattern = "") { // 在参数列表中 通过 pattern="" 来指定形参默认值，防止报错
-
-      var dt = new Date(input);
-
-      // 获取年月日
-
-      var y = dt.getFullYear();
-
-      var m = (dt.getMonth() + 1).toString().padStart(2, '0');
-
-      var d = dt.getDate().toString().padStart(2, '0');
-
-
-
-      // 如果 传递进来的字符串类型，转为小写之后，等于 yyyy-mm-dd，那么就返回 年-月-日
-
-      // 否则，就返回  年-月-日 时：分：秒
-
-      if (pattern.toLowerCase() === 'yyyy-mm-dd') {
-
-        return `${y}-${m}-${d}`;
-
-      } else {
-
-        // 获取时分秒
-
-        var hh = dt.getHours().toString().padStart(2, '0');
-
-        var mm = dt.getMinutes().toString().padStart(2, '0');
-
-        var ss = dt.getSeconds().toString().padStart(2, '0');
-
-
-
-        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
-
-      }
-
-    }
-
-  }
-
-```
-
-
-
-> 使用ES6中的字符串新方法 String.prototype.padStart(maxLength, fillString='') 或 String.prototype.padEnd(maxLength, fillString='')来填充字符串；
-
-
-
-
-
-### 全局过滤器
-
-```
-
-// 定义一个全局过滤器
-
-Vue.filter('dataFormat', function (input, pattern = '') {
-
-  var dt = new Date(input);
-
-  // 获取年月日
-
-  var y = dt.getFullYear();
-
-  var m = (dt.getMonth() + 1).toString().padStart(2, '0');
-
-  var d = dt.getDate().toString().padStart(2, '0');
-
-
-
-  // 如果 传递进来的字符串类型，转为小写之后，等于 yyyy-mm-dd，那么就返回 年-月-日
-
-  // 否则，就返回  年-月-日 时：分：秒
-
-  if (pattern.toLowerCase() === 'yyyy-mm-dd') {
-
-    return `${y}-${m}-${d}`;
-
-  } else {
-
-    // 获取时分秒
-
-    var hh = dt.getHours().toString().padStart(2, '0');
-
-    var mm = dt.getMinutes().toString().padStart(2, '0');
-
-    var ss = dt.getSeconds().toString().padStart(2, '0');
-
-
-
-    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
-
-  }
-
-});
-
-```
-
-
-
-> 注意：当有局部和全局两个名称相同的过滤器时候，会以就近原则进行调用，即：局部过滤器优先于全局过滤器被调用！
-
-
-
-## 键盘修饰符以及自定义键盘修饰符
-
-### 1.x中自定义键盘修饰符【了解即可】
-
-```
-
-Vue.directive('on').keyCodes.f2 = 113;
-
-```
-
-### [2.x中自定义键盘修饰符](https://cn.vuejs.org/v2/guide/events.html#键值修饰符)
-
-1. 通过`Vue.config.keyCodes.名称 = 按键值`来自定义案件修饰符的别名：
-
-```
-
-Vue.config.keyCodes.f2 = 113;
-
-```
-
-2. 使用自定义的按键修饰符：
-
-```
-
-<input type="text" v-model="name" @keyup.f2="add">
-
-```
-
-
-
-
-
-## [自定义指令](https://cn.vuejs.org/v2/guide/custom-directive.html)
-
-1. 自定义全局和局部的 自定义指令：
-
-```
-
-    // 自定义全局指令 v-focus，为绑定的元素自动获取焦点：
-
-    Vue.directive('focus', {
-
-      inserted: function (el) { // inserted 表示被绑定元素插入父节点时调用
-
-        el.focus();
-
-      }
-
-    });
-
-
-
-    // 自定义局部指令 v-color 和 v-font-weight，为绑定的元素设置指定的字体颜色 和 字体粗细：
-
-      directives: {
-
-        color: { // 为元素设置指定的字体颜色
-
-          bind(el, binding) {
-
-            el.style.color = binding.value;
-
-          }
-
-        },
-
-        'font-weight': function (el, binding2) { // 自定义指令的简写形式，等同于定义了 bind 和 update 两个钩子函数
-
-          el.style.fontWeight = binding2.value;
-
-        }
-
-      }
-
-```
-
-2. 自定义指令的使用方式：
-
-```
-
-<input type="text" v-model="searchName" v-focus v-color="'red'" v-font-weight="900">
-
-```
-
-
-
-## Vue 1.x 中 自定义元素指令【已废弃,了解即可】
-```
-Vue.elementDirective('red-color', {
-  bind: function () {
-    this.el.style.color = 'red';
-  }
-});
-```
-使用方式：
-```
-<red-color>1232</red-color>
-```
-
-## 相关文章
+### 相关文章
 1. [vue.js 1.x 文档](https://v1-cn.vuejs.org/)
 2. [vue.js 2.x 文档](https://cn.vuejs.org/)
 3. [String.prototype.padStart(maxLength, fillString)](http://www.css88.com/archives/7715)
