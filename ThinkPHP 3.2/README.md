@@ -1,11 +1,11 @@
 ## ```ThinkPHP 3.2``` [ThinkPHP3.2完全开发手册](http://document.thinkphp.cn/manual_3_2.html) <br>
 <img src="../PHP/images/5d53b000cb7b4.jpg" width=50% height=50%/><br>
 
-1. url地址模式()
+## 2. url地址模式()
 
-3. 路径：
-https://localhost/WeChatApp/index.php/Home/控制器/方法
-	3.1url路径模式：
+## 3. 路径：https://localhost/WeChatApp/index.php/Home/控制器/方法
+>3.1url路径模式：
+
 	pathinfo模式：https://localhost/WeChatApp/index.php/Home/控制器/方法
 
 	rewrite路径模式：https://localhost/WeChatApp/Home/控制器/方法(推荐)
@@ -13,33 +13,35 @@ https://localhost/WeChatApp/index.php/Home/控制器/方法
 		2.取消LoadModule rewrite_module modules/mod_rewrites.so ,重启服务
 		3.把ThinkPHP框架下的.htaccess文件拷贝到网站根目录(WeChatApp)，与index.php 同级
 		
-		★★★注意了：路径访问模式与文件目录位置是两个不同的概念，而rewrite模式下的真实文件位置为：
-		    EntWEChATAPP/Application/Home/Controller/控制器名Controller.class.php(里面包含一系列操作或方法)
+		```★★★注意了：路径访问模式与文件目录位置是两个不同的概念，而rewrite模式下的真实文件位置为：```
+		    ```EntWEChATAPP/Application/Home/Controller/控制器名Controller.class.php(里面包含一系列操作或方法)```
 
 	普通模式：https://localhost/WeChatApp/index.php?m=Home&c=控制器&a=方法
 
-	-3.2 路径模式配置(app/common/conf/config.php)
+>3.2 路径模式配置(app/common/conf/config.php)
+
 		'URL_CASE_INSENSITIVE'  =>  true:设置为true的时候表示URL地址不区分大小写，这个也是框架在部署模式下面的默认设置
 		
 		-'URL_MODEL'             => 2,       //URL生成模式，隐藏入口文件
 			-普通模式：0  -PATHINFO模式：1  -rewrite模式：2  -兼容模式：3
 
-4. 数据库配置
-class DataController entends Controller{
-	public function index(){
-		//实例化数据库，连接user表
-		$model = M('user');
-		// 查询所有数据	
-		$data = $model->select();
-		// 绑定，分配数据
-		$this->assign('data'); 
-		// 包含页面，HTML中展示数据
-		$this->display();
-	}
+## 4. 数据库配置
 
-	}
+	class DataController entends Controller{
+		public function index(){
+			//实例化数据库，连接user表
+			$model = M('user');
+			// 查询所有数据	
+			$data = $model->select();
+			// 绑定，分配数据
+			$this->assign('data'); 
+			// 包含页面，HTML中展示数据
+			$this->display();
+		}
 
-5. 函数：function.php
+		}
+
+## 5. 函数：function.php
 	1、函数位置
 		a）系统函数:\EntWeChatApp\ThinkPHP\Common\functions.php
 		b）运用函数:\EntWeChatApp\APP\Common\Common\functions.php
@@ -49,8 +51,9 @@ class DataController entends Controller{
 		a）在以上文件用户都可以自定义函数
 		b）自定义函数不能重名
 
-6. 控制器自写:
-	1. 声明控制器
+## 6. 控制器自写:
+>1. 声明控制器
+
 		a)新建控制器\EntWeChatApp\APP\Home\Controller
 				DemoController.class.php
 		b）
@@ -62,7 +65,7 @@ class DataController entends Controller{
 			//声明当前控制器并继承核心控制器
 			class DemoController extend Controller{
 			拓展：	// demo方法的前置操作，后置操作，运行顺序为前>中>后
--
+
 				public function demo(){
 				echo '控制器练习使用，以及方法的使用'
 				}
@@ -71,27 +74,30 @@ class DataController entends Controller{
 		c)地址栏访问
 			local/EntWeChatAPP/Home/Demo/demo=>访问demo函数
 
-	2. 前置，后置操作
+>2. 前置，后置操作
+
 				public function demo(){
 					echo '前置操作'；
 				}
--
+
 				public function demo(){
 				echo '控制器练习使用，以及方法的使用'
 				}
-				-
+
 				//demo方法的后置操作
 				public function demo(){
 					echo '后置操作'
 				}
-	3. 参数绑定
+>3. 参数绑定
+
 		3.1 启用参数绑定功能，首先确保你开启了URL_PARAMS_BIND设置：
 			'URL_PARAMS_BIND' =>true, // URL变量绑定到操作方法作为参数
 		
 		
 
-7. url生成
-格式：
+## 7. url生成
+```格式：```
+
     7.1
         U(模块/控制器/操作#锚点@域名]?参数1=值1&参数2=值2...)
         ★★★ 如果不定义模块的话 就表示当前模块名称，下面是一些简单的例子：
@@ -104,10 +110,11 @@ class DataController entends Controller{
         U('Home/cate?cate_id=1&status=1')
          =>生成的URL都为:/当前blog控制器的模块名/Blog控制器/cate方法/cate_id/1/status/1.html
          
-         thinkphp的企业微信项目的URL生成格式：<{:U('query')}>：query指代方法方法
+` thinkphp的企业微信项目的URL生成格式：<{:U('query')}>：query指代方法方法`
 
-8. ajax返回
-    1.jQuery中
+## 8. ajax返回
+>1.jQuery中
+	
         $.post("{:U('url')}", { "func": "getNameAndTime" },function(data){
              alert(data.name); // John
              console.log(data.time); //  2pm
@@ -122,10 +129,11 @@ class DataController entends Controller{
             callback:发送成功时回调函数。
             
             type:返回内容格式，xml, html, script, json, text, _default
-    2. 项目控制器中
+> 2. 项目控制器中
+
         $this->ajaxReturn($arr);//直接把数组1转换成json对象
 
-9. 跳转页面，重定向:系统的\Think\Controller类内置了两个跳转方法success和error，用于页面跳转提示，而且可以支持ajax提交
+## 9. 跳转页面，重定向:系统的\Think\Controller类内置了两个跳转方法success和error，用于页面跳转提示，而且可以支持ajax提交
 
     // 操作完成3秒后跳转到 /Article/index:
     $this->success('操作完成','/Article/index',3);
@@ -142,7 +150,7 @@ class DataController entends Controller{
             参数三：时间
             参数四：提示信息
     
-10. 变量的获取
+## 10. 变量的获取
     1. GET方法获取：
         以GET变量类型为例，说明下I方法的使用：
         echo I('get.id'); // 相当于 $_GET['id']
@@ -160,7 +168,7 @@ class DataController entends Controller{
         I('cookie.'); // 获取整个 $_COOKIE 数组
         I('server.REQUEST_METHOD'); // 获取 $_SERVER['REQUEST_METHOD'] 
         
-11. 空控制器和空操作：防止用户地址栏恶意输入
+## 11. 空控制器和空操作：防止用户地址栏恶意输入
     空控制器,空方法：
     <?php
         namespace Home\Controller;
@@ -178,10 +186,10 @@ class DataController entends Controller{
         }
     ?>
 
-12. 操作绑定到类上
+## 12. 操作绑定到类上
     1.设置参数'ACTION_BIND_CLASS'    =>    True
 
-13. 方法调用:
+## 13. 方法调用:
      1.在控制器NameController.class.php下(调用同一个控制器的a方法的三种方法)
          public function a(){
                 echo 'AAAA'
@@ -200,7 +208,7 @@ class DataController entends Controller{
       2.2 开始调用方法
         $model->a();
 
-14. 常用的函数(ThinkPHP\Common\functions.php)
+## 14. 常用的函数(ThinkPHP\Common\functions.php)
     U():生成URL地址
     A()：跨模块实例化
     I()：获取参数
@@ -227,7 +235,7 @@ class DataController entends Controller{
     $model->query();    //query()执行的是查询(select)的SQL语句。
     $model->getLastSql();  //获取执行的SQL
     
-15. 模型的定义:App/Home/Model下新建一个NameModel.class.php
+## 15. 模型的定义:App/Home/Model下新建一个NameModel.class.php
     1.自定义数据模型:打开并新建文件夹App\Home\Model\NameViewModel.class.php
     2.书写代码：
         <?php    
