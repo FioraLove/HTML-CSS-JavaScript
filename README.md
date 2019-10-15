@@ -143,3 +143,42 @@
     -只要指定了宽度，系统会自动根据宽度计算出高度，只要指定了高度，系统会自动根据高度计算出宽度，并且都是等比拉伸的，也就是说不会变形：
 	<img src="当前电脑图片的路径" width="200px" />
 	<img src="当前电脑图片的路径" height="200px" />
+##### 10.定位position
+
+    1.position：relative相对定位
+    2.position：absolute绝对定位，作用：
+        14.2.1 压盖：比如一张图片覆盖另一张图片的左上角  
+        
+##### 11.背景相关属性
+
+    background-repeat：repeat-x,repeat-y,no-repeat 平铺特性
+    background-position: x px  y px;
+                        (top,center,bottom) and (right,center,left) 两两组合
+						
+### ```CSS spirit css精灵```
+
+    CSS Image Sprites. ❮ Previous Next ❯:
+     An image sprite is a collection of images put into a single image. 
+     A web page with many images can take a long time to load and generates multiple server requests. 
+     Using image sprites will reduce the number of server requests and save bandwidth       
+     
+     Code sample
+        .box{
+          width: 46px;
+          height: 44px;
+          background: url(img_navsprites.gif) -x -y(这两个参数分别表示：向左，向上平移，均用负数表示); }
+
+##### 12.HTML如何给网页添加ico图标:
+
+    在head标签中添加：href表示ico文件的相对路径
+    <link rel="Bookmark" type="image/x-icon" href="b/img/icon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="b/img/icon/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="b/img/icon/favicon.ico" />
+    
+    shortcut icon，特指浏览器中地址栏左侧显示的图标，一般大小为16x16，后缀名为.icon；
+    icon，指的是图标，格式可为PNG\GIF\JPEG，尺寸一般为16x16、24x24、36x36等。把这个图标放到网站的根目录下就可以了，页面加载时浏览器会自动检索这个图标然后把它加到标题上（当然也可以放在一个页面可以请求到的目录下）。
+    Bookmark，当网站收藏到收藏夹中时，显示在前面的图标。
+    ————————————————
+	
+##### tips
+    1.HTML下的表单标签中的<input>便签的values属性：赋值初始（默认）值给 HTML 表单
