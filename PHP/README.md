@@ -57,41 +57,44 @@
 	严格比较：用三个等号 === 比较，除了比较值，也比较类型。
 
 ##### 6. PHP常量（用常量时，不能在常量名前添加$ 符号，不然会将常量转换成新的未定义变量使用，会导致报错）
+>1.常量是一个简单值的标识符。该值在脚本中不能改变。
+    
+	一个常量由英文字母、下划线、和数字组成,但数字不能作为首字母出现。 (常量名不需要加 $ 修饰符)。注意： 常量在整个脚本中都可以使用
+	常量语法格式：
+	bool define ( string $name , mixed $value [, bool $case_insensitive = false ] )
+	该函数有三个参数:
+				name：必选参数，常量名称，即标志符。
+				value：必选参数，常量的值。
+				case_insensitive ：可选参数，如果设置为 TRUE，该常量则大小写不敏感。默认是大小写敏感的
+				常量可以在任意地方调用，不用理会常量的位置
+				eg:	<?php
+					define("GREETING", "Welcome to W3School.com.cn!", true);
+					echo greeting;
+				?>
 
-	>1.常量是一个简单值的标识符。该值在脚本中不能改变。
+>2.魔术常量:PHP 向它运行的任何脚本提供了大量的预定义常量,调用方式：__name__
     
-        一个常量由英文字母、下划线、和数字组成,但数字不能作为首字母出现。 (常量名不需要加 $ 修饰符)。注意： 常量在整个脚本中都可以使用
-        常量语法格式：
-        bool define ( string $name , mixed $value [, bool $case_insensitive = false ] )
-        该函数有三个参数:
-					name：必选参数，常量名称，即标志符。
-					value：必选参数，常量的值。
-					case_insensitive ：可选参数，如果设置为 TRUE，该常量则大小写不敏感。默认是大小写敏感的
-					常量可以在任意地方调用，不用理会常量的位置
-                    
-    >2.魔术常量:PHP 向它运行的任何脚本提供了大量的预定义常量,调用方式：__name__
-    
-        2.1 __LINE__ :文件中的当前行号。
-        2.2 __FILE__ :文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名
-        2.3 __DIR__ : 文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录
-        2.4 __FUNCTION__ :函数名称
-        2.5 __CLASS__ :类的名称
-        2.6 __METHOD__ :类的方法名
-        eg:
-            <?php
-                class test {
-                    function _print() {
-                        echo '类名为：'  . __CLASS__ . "<br>";
-                        echo  '函数名为：' . __FUNCTION__ ;
-                        echo '文件的当前行号：'.__LINE__;
-                        echo '文件的完整路径：'.__FILE__;
-                        echo '文件所在的目录：'.__DIR__;
-                    }
-                }
-                $t = new test();
-                $t->_print();
-                ?>
-        
+	2.1 __LINE__ :文件中的当前行号。
+	2.2 __FILE__ :文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名
+	2.3 __DIR__ : 文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录
+	2.4 __FUNCTION__ :函数名称
+	2.5 __CLASS__ :类的名称
+	2.6 __METHOD__ :类的方法名
+	eg:
+		<?php
+			class test {
+				function _print() {
+					echo '类名为：'  . __CLASS__ . "<br>";
+					echo  '函数名为：' . __FUNCTION__ ;
+					echo '文件的当前行号：'.__LINE__;
+					echo '文件的完整路径：'.__FILE__;
+					echo '文件所在的目录：'.__DIR__;
+				}
+			}
+			$t = new test();
+			$t->_print();
+			?>
+
 ##### 7. PHP字符串变量：$txt="hello world"
 
 	7.1 并置运算符 (.) 用于把两个字符串值连接起来
@@ -99,7 +102,7 @@
 	7.3 strpos(字符串，查找目标值) 函数用于在字符串内查找一个字符或一段指定的文本：
 				如果在字符串中找到匹配，该函数会返回第一个匹配的字符位置。如果未找到匹配，则返回 FALSE。
 
-#### 8. PHP逻辑运算符
+##### 8. PHP逻辑运算符
 
 	and ：与
 	or ： 或
@@ -162,7 +165,7 @@
 		echo $a->add();
 		echo $a->var;
 
-	=> 用于数组中，常见的用法是array（key=>values）:
+	=> 用于数组中，常见的用法是array（key=>values）:索引是自动分配的（索引从 0 开始）;count()函数用于返回数组的长度
 		$a = array(
 		  '0' => '1',
 		  '2' => '4',
@@ -238,6 +241,18 @@
 		   }
 		?>
 
+>PHP多维数组
+
+    $cars = array  类似于这样描写
+      (
+      array("Volvo",22,18),
+      array("BMW",15,13),
+      array("Saab",5,2),
+      array("Land Rover",17,15)
+      );
+      获取行数：count($cars)
+      获取列数：count($cars[0])
+	  
 ##### 17. 全局变量：超全局变量
 
 	$GLOBALS：
@@ -258,8 +273,8 @@
 	$_SESSION
 ##### 18. PHP验证表单数据
 
-<?php
-// 定义变量并设置为空值
+	<?php
+	// 定义变量并设置为空值
 	$name = $email = $gender = $comment = $website = "";
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -278,6 +293,7 @@
 	在用户提交该表单时，我们还要做两件事：
 	（通过 PHP trim() 函数）去除用户输入数据中不必要的字符（多余的空格、制表符、换行）
 	（通过 PHP stripslashes() 函数）删除用户输入数据中的反斜杠（\）
+	（htmlspecialchars()函数是使用来把一些预定义的字符转换为HTML实体，返回转换后的新字符串，原字符串不变
 	?>
 
 ##### 19. 函数:任何函数都需要调用才能执行
@@ -291,9 +307,9 @@
     //函数的调用
     $some = functionName(($var1,$var2,...)
     
-##### 20. PHP面向对
-象
-    20.1 PHP 定义类通常语法格式如下：
+##### 20. PHP面向对象
+
+>20.1 PHP 定义类通常语法格式如下：
     
     <?php
         class phpClass {
@@ -306,47 +322,52 @@
           [..]
         }
     ?>
-    1.类使用 class 关键字后加上类名定义。
+    > 4.函数定义类似 PHP 函数的定义，但函数只能通过该类及其实例化的对象访问，即
 
-    2.类名后的一对大括号{}内可以定义变量和方法。
+>类的简单使用：
     
-    3.类的变量使用 var 来声明, 变量也可以初始化值。
+> 1.类使用 class 关键字后加上类名定义。
+
+> 2.类名后的一对大括号{}内可以定义属性和方法。
     
-    4.函数定义类似 PHP 函数的定义，但函数只能通过该类及其实例化的对象访问。
+> 3.类的变量使用 var 来声明, 变量也可以初始化值。
     
+> 4.函数定义类似 PHP 函数的定义，但函数只能通过该类及其实例化的对象访问，即
+   
     eg:
     <?php
         class Site {
           /* 成员变量 */
           var $url;
           var $title;
-
+               
           /* 成员函数 */
           function setUrl($par){
              $this->url = $par;
           }
-
+          
           function getUrl(){
              echo $this->url . PHP_EOL;
           }
-
+          
           function setTitle($par){
              $this->title = $par;
           }
-
+          
           function getTitle(){
              echo $this->title . PHP_EOL;
           }
         }
     ?>   // 变量 $this 代表自身的对象;PHP_EOL 为换行符
 
-   20.2 PHP 中创建对象:类创建后，我们可以使用 new 运算符来实例化该类的对象
-        eg: $runoob = new Site;
+>20.2 PHP 中创建对象:类创建后，我们可以使用 new 运算符来实例化该类的对象
+ 
+        eg: $runoob = new Site();
             $taobao = new Site;
             $google = new Site;
         
-   20.3 调用成员方法:在实例化对象后，我们可以使用该对象调用成员方法->
-   
+>20.3 调用成员方法:在实例化对象后，我们可以使用“->”符号来调用属性与方法,且指定调用的方法前面不加$(即$taobao->setTitle( "淘宝" )，不存在$符号)
+  
          // 调用成员函数，设置标题和URL
         $runoob->setTitle( "菜鸟教程" );
         $taobao->setTitle( "淘宝" );
@@ -366,12 +387,86 @@
         $google->getUrl();
         
 ★★构造函数：主要用来在创建对象时初始化对象， 即为对象成员变量赋初始值，在创建对象的语句中与 new 运算符一起使用。
-类似于Python中的def __init__()的初始化函数，也是初始化对象函数   
+类似于Python中的def __init__()的初始化函数，也是初始化对象函数 
 
-        语法：
-        function __construct( $par1, $par2 ) {
-           $this->url = $par1;
-           $this->title = $par2;
+    语法：
+    function __construct( $par1, $par2 ) {
+       $this->url = $par1;
+       $this->title = $par2;
+    }
+    构造方法的样例:
+        <?php        
+        class Person{
+            public $name;
+            public $age;
+            public function __construct($name,$age){
+                // 在类中如何访问在自己的属性。$this代表当前对象
+                $this->name = $name;
+                $this->age = $age;
+            }
         }
+        // 属性以及方法的调用，使用new 创建新的实例对象
+        $ming=new Person('zhangsan',18);
+        $niu = new Person('xiaoniu',20);
+        var_dump($ming);
+        var_dump($niu)
+    ?>
+##### 21.继承
 
-##### 21. 
+    PHP 使用关键字 extends 来继承一个类，PHP 不支持多继承，格式如下：
+    class Child extends Parent {
+       // 代码部分
+    }
+    继承是样例：
+    <?php        
+        public Person(){
+            public $name='chd';
+            public $age= 18;
+            public function eat(){
+                echo 'i love you';
+            }
+        }
+        public Man extends Person(){
+            public $age = 18;
+        }
+        // 属性以及方法的调用，使用new 创建新的实例对象
+        $ming=new Man(); // 声明子类实例化对象
+        var_dump($ming->name);  // 调用父类的属性值
+        var_dump($ming->eat());  // 调用父类的方法
+        var_dump($ming->age);  // 调用子类自身的属性值
+    ?>
+
+##### 访问控制
+
+    PHP 对属性或方法的访问控制，是通过在前面添加关键字 public（公有），protected（受保护）或 private（私有）来实现的。  
+    public（公有）：公有的类成员可以在任何地方被访问。
+    protected（受保护）：受保护的类成员则可以被其自身以及其子类和父类访问。
+    private（私有）：私有的类成员则只能被其定义所在的类访问。
+## 21.php的日期和时间
+
+>21.1  Date()函数：date(时间戳的格式，规定时间戳)
+
+    时间戳的格式： d - 表示月里的某天（01-31）
+                m - 表示月（01-12）
+                Y - 表示年（四位数）
+                1 - 表示周里的某天
+                h - 带有首位零的 12 小时小时格式
+                i - 带有首位零的分钟
+                s - 带有首位零的秒（00 -59）
+                a - 小写的午前和午后（am 或 pm）
+    其他字符，比如 "/", "." 或 "-" 也可被插入字符中，以增加其他格式。
+     $s_date = date('Y-m-d',strtotime('-6 days'));   //表示在获取当前时间的基础上减去六天的时间，日期格式为Y-m-d
+     $e_date = date('Y-m-d'); 
+
+
+#### tips:
+
+>1.trim('参数一','参数二')：
+   
+        参数一表示：待处理的字符串
+        参数二表示:字符串首尾指定去除的字符串
+        $text   = "\t\tThese are a few words :) ...  ";
+        $trimmed = trim($text);  // 指定首尾的空字符串
+        $trimmed = trim($text, " \t.");  //去除首尾特定的字符串
+>2.
+   
