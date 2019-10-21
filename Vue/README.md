@@ -57,7 +57,16 @@
             showHandler(){    // 等价于showHandler:function(){}
                 pass
                 }
+>v-text:{{}}:也就是说v-text和{{}}一样,只能输出纯文本,浏览器不会对其再进行html解析
 
+>v-html:会将其内容看做html标签解析后输出
+
+    eg:msg: '<a href="http://cn.vuejs.com">Vue.js</a>'
+    <!--v-text:内容以纯文本形式显示-->
+    <p v-text="msg"></p>
+    <!--v-html:内容以Html显示-->
+    <p v-html="msg"></p>
+	
 ## 2. v-model 指令用来在 input、select、textarea、checkbox、radio  等表单控件元素上创建双向数据绑定，
 	根据表单上的值，自动更新绑定的元素的值。
 
@@ -294,6 +303,24 @@
 			  }
 			})
 
+>v-for不仅能对数组进行遍历输出,还能将对象的键值进行遍历
+
+    <ul>
+        <li v-for="(item, key, index) in books[1]" :key="index">
+            序号 : {{index}}  ---  键 : {{key}}=>值 : {{item}}
+        </li>
+    </ul>
+    (item, key, index) in books[1]表示对第一行的键值对进行索引，book[i]表示0开始索引
+    选取数组中的一个对象,使用v-for对其进行键值遍历
+    v-for表达式在对对象进行遍历时,支持两个可选参数分别是键名和索引:
+        v-for="(item, key, index) in books[1]"
+    使用:key="index",使用key使元素不被复用,且为key绑定index索引值,确保唯一
+    ————————————————
+>v-for迭代整数
+
+    <span v-for="i in 10">{{i}}</span>:关于整数迭代Vue1.x和2.x不一样,1.x的迭代是从0开始，而2.x的开始索引为1   
+
+
 ## 9.数组更新检测
 #### 变异方法
 
@@ -309,7 +336,30 @@
     变异方法，顾名思义，会改变调用了这些方法的原始数组。
     相比之下，也有非变异 (non-mutating method) 方法，例如 filter()、concat() 和 slice() 。
     它们不会改变原始数组，而总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：
+>9.1 push():
+>9.2 [splice()方法：实现对数组进行增删改的操作](https://blog.csdn.net/qq_41646249/article/details/97133206)<br>
+     [push,splice实现对数组进行增删改查的操作](https://blog.csdn.net/ABAP_Brave/article/details/81714611) 
 
+    语法结构：splice(index,len,[item])
+    1、可以用来添加/删除/替换数组内某一个或者几个值
+    2、该方法会改变原始数组
+     index:数组开始下标       
+     len: 替换/删除的长度       
+     item:替换的值，删除操作的话 item为空   
+    
+    
+>需要注意的是,以下导致的数组变化Vue不能检测到,也不会触发视图更新
+
+    1)通过索引直接设置的项,如:vm.books[2]={};
+    2)修改数组的长度,如:vm.books.length=1;
+>在v-for遍历中，都需要声明：key，那么:key的作用是什么呢？
+
+    答：vue和react都实现了一套虚拟DOM，使我们可以不直接操作DOM元素，只操作数据便可以重新渲染页面。而隐藏在背后的原理便是其高效的Diff算法。
+    vue和react的虚拟DOM的Diff算法大致相同，其核心是基于两个简单的假设：
+        假设1、 两个相同的组件产生类似的DOM结构，不同的组件产生不同的DOM结构。        
+        假设2、 同一层级的一组节点，他们可以通过唯一的id进行区分。 
+    简单的说， :key的作用主要是为了高效的更新虚拟DOM
+	
 ## 10 事件修饰符
 为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
 
@@ -358,7 +408,49 @@
     eg： Vue.filter('过滤器的名称',function(data){
                      return data+'1123'
                      }) 
- 
+ >过滤器作用：双花括号插值和 v-bind 表达式 (后者从 2.1.0+ 开始支持)。
+
+>过滤器使用：过滤器应该被添加在 JavaScript 表达式的尾部，由“管道”符号指示：
+
+    <!-- 在双花括号中 -->
+    {{ message | capitalize }}
+     
+    <!-- 在 `v-bind` 中 -->
+    <div v-bind:id="rawId | formatId"></div>
+    
+> 局部过滤器：Vue.filter('过滤器名称',function(){})：过滤器中的function，第一个参数，已经被规定死了，永远都是 过滤器 管道符前面传递过来的数据
+        
+    <body>
+    <div id="app">
+        <input type="text" v-model="price">    <!--v-model双向绑定-->
+        <h3>{{price | currentPrice}}</h3>   <!--2.局部使用过滤器：currentPrice是过滤器的名字-->
+         <h4>{{msg | reverse}}</h4>     <!--3.使用全局过滤器-->
+    </div>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript">
+    
+        // 1.声明全局的过滤器
+        Vue.filter('reverse', function (value) {
+            return value.split('').reverse().join('')  // 通过空格分隔和合并
+        });
+         
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    price:0    // 默认是0
+                }
+            },
+            // 局部过滤器：1.在当前组件中声明过滤器
+            filters: {   // Vue实例中声明，是一个局部过滤器
+                currentPrice:function (value) {
+                    console.log(value);
+                    return '$' + value;   // 过滤器默认在前面添加$
+                }
+            }
+        })
+    </script>
+    </body>
  ## 12.自定义全局和局部的自定义指令：三个方法bind,inserted,updated
      // 自定义全局指令 v-focus，为绑定的元素自动获取焦点：
     
@@ -394,17 +486,288 @@
       }
     })
 
-## 13.组件component
-    简单的Vue组件示例：
-    // 定义一个名为 button-counter 的新组件
-    Vue.component('button-counter', {
-      data: function () {
-        return {
-          count: 0
+
+## 13.组件component [组件component](https://www.cnblogs.com/fozero/p/8563939.html)
+   13.1全局组件：可以被多个APP进行调用,在APP实例外创建;定义一个名为 button-counter 的新组件:组件名称若使用驼峰原则，引用组件时
+       需要全部小写，并且两个单词之间用“-”连接;若不使用驼峰原则时，直接使用名称;在<script>全局组件,vue实例</script>中注册组件
+   
+   ```Vue.component('组件名',{ /* ..组件的模板对象.. */ })```
+   
+        Vue.component('buttonCounter', {
+          data: function () {  // 1.组件可以有自己的data数据，组件中的data必须是一个方法，且这个方法内部必须返回一个对象才行，而实例中的data可以为一个对象
+            return {
+              count: 0
+            }
+          },
+          template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+          // 2. 全局组件有template属性 
+        }) 
+        
+13.2 局部组件:局部注册的组件 将只在父组件模板中可用
+   
+            // 局部组件方式一：
+             var Child = {
+              template: '<div>A custom component!</div>'
+            }
+            var vm = new Vue({
+                el: '#app',
+                components:{
+                    'componentName:{
+                        'my-component': Child
+                     }
+                }
+            })
+            // 局部组件方式二：同一个组件实例下可以创建多个组件（习惯了，就·推荐使用这个吧！！）
+            <my-component></my-component>
+            <my-component></my-component>
+            var vm = new Vue({
+                el: '#app',
+                components:{
+                     'componentName1':{
+                         template: '<h1>hello world</h1>'
+                             },
+                         data:{
+                             demo:'',
+                         }
+                     'componentName2':{
+                         'template':'<h3>hello c++</h3>',
+                         data:{},
+                     }
+                }
+            })            
+            
+        eg：
+        <script>
+        // 全局组件
+        Vue.component('my-component', {
+            template: '<h1>A custom component!</h1>'
+        })
+        // 局部组件
+        var Child = {
+            template: '<div>A custom component!</div>'
         }
-      },
-      template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-    })  
+        var vm = new Vue({
+            el: '#app',
+            data: {
+            },
+            components: {
+                // <my-component> 将只在父组件模板中可用
+                'my-component': Child
+            },
+    
+            methods: {
+    
+                },
+        </script>
+>双组件切换:仅适用于两个组件(v-if,v-on,component)
+
+    <div id="app"></div>
+    <a href="javacript:;" @click="flag=true">login</a>
+    <a href="javacript:;"@click="flag=false">register</a>
+    <login v-if="flag"></login>
+    <login2 v-else="flag"></login2>
+
+    </div>
+    <script>
+        // login
+        Vue.component('login', {
+            template: '<h2>登录</h2>'
+        }),
+            // register
+        Vue.component('login2', {
+            template: '<h2>注册</h2>'
+        }),
+    
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag:true
+            }
+    </script>
+    
+>多组件的切换:利用<component :is="componentName"></component>
+
+    <body>
+      <div id="app">
+        <a href="" @click.prevent="comName='login'">登录</a>
+        <a href="" @click.prevent="comName='register'">注册</a>
+        <a href="" @click.prevent="comName='quit'">注销</a>
+    
+        <!-- Vue提供了 component ,来展示对应名称的组件 -->
+        <!-- component 是一个占位符, :is 属性,可以用来指定要展示的组件的名称 -->
+        <component :is="comName"></component>
+    
+        <!-- 总结:当前学习了几个 Vue 提供的标签了??? -->
+        <!-- component,  template,  transition,  transitionGroup  -->
+    
+      </div>
+    
+      <script>
+        // 组件名称是 字符串
+        Vue.component('login', {
+          template: '<h3>登录组件</h3>'
+        })
+        Vue.component('register', {
+          template: '<h3>注册组件</h3>'
+        })
+        Vue.component('quit', {
+          template: '<h3>注销组件</h3>'
+        })        
+        // 创建 Vue 实例，得到 ViewModel
+        var vm = new Vue({
+          el: '#app',
+          data: {
+            comName: 'login' // 当前 component 中的 :is 绑定的组件的名称
+          },
+          methods: {}
+        });
+      </script>
+    </body>
+    </html>
+>多组件的创建，组件之间无因果关系 
+
+    <body>
+      <div id="app">
+        <counter></counter>
+        <hr>
+        <counter></counter>
+        <hr>
+        <counter></counter>
+      </div>
+    
+      <template id="tmpl">  --其实这也是全局组件的一种创建方式，将template绑定到自身data函数中，此刻的data不同于实例中的data，此刻为一个函数
+        <div>
+          <input type="button" value="+1" @click="increment">
+          <h3>{{count}}</h3>
+        </div>
+      </template>
+    
+      <script>
+        var dataObj = { count: 0 }
+        // 这是一个计数器的组件, 身上有个按钮,每当点击按钮,让 data 中的 count 值 +1
+        Vue.component('counter', {
+          template: '#tmpl',
+          data: function () {
+            // return dataObj
+            return { count: 0 }
+          },
+          methods: {
+            increment() {
+              this.count++
+            }
+          }
+        })
+        // 创建 Vue 实例，得到 ViewModel
+        var vm = new Vue({
+          el: '#app',
+          data: {},
+          methods: {}
+        });
+      </script>
+    </body>
+    
+    </html>
+        
+>父子组件通信主要是使用prop和自定义事件，父组件通过 prop 给子组件下发数据，子组件通过事件给父组件发送消息。
+>父子组件的关系可以总结为 prop 向下传递，事件向上传递
+       
+## 生命周期（与el，data，methods，computed等等同级）
+>创建阶段
+
+    1.beforeCreate():表示实例完全被创建时，会执行它
+        /ps：在beforCreate生命周期函数执行时，data和methods中的数据均未被初始化
+    
+    2.created():在created中，data与methods都已经被实例化了，
+    
+    3.beforeMount(): 表示模板已经在内存中编译好了，只是未渲染到真正要展示的页面上
+    
+    4.mounted():是实例创建期间最后一个生命周期函数，当执行完mounted就表示，实例已经完全创建好了，
+                此时，如果没有其它操作的话，这个实例就静静地躺在内存中
+>组件运行阶段：
+    
+    1.beforeUpdate(): 表示我们的界面还没有更新，但数据肯定被更新了 
+            结论：运行beforeUpdate，页面上显示的数据还没有被更新，但数据已经更新了，页面与数据更新不同步
+    
+    2.updated():页面都data数据已经保持同步了，都是最新的
+>销毁过程
+
+    1.beforeDestroy：Vue示例已经从运行阶段，进入到销毁阶段，实例身上的所有data，methods以及过滤器，指令都处于可用状态，未执行真正的销毁动作
+    
+    2.destroyed：组件已经完全销毁了，一切data，方法，指令，过滤器均不可使用
+
+### 14. watch方法：   
+     watch: {
+                orgBarChartData: {      //  监听的目标属性
+                    handler(newVal,oldVal){
+                        this.renderOrgBarChart();       //重设图表，这两个都是动作体
+                        this.orgBarChart.resize();     //重新设置图表高宽
+                    },
+                    deep: true  // deep:true 
+                },
+            }
+
+## 15.this，$this,$(this)在前端多语言中的易混点
+    1.this在Vue中只有 this 这一个样式表示当前的视图vm对象
+    2.$(this) 返回一个 jQuery 对象，你可以对它调用多个 jQuery 方法，比如用 text() 获取文本，用val() 获取值等等。
+      而 this 代表当前元素，它是 JavaScript 关键词中的一个，表示上下文中的当前 DOM 元素。你不能对它调用 jQuery 方法，直到它被 $() 函数包裹，例如 $(this)
+    3.在PHP中只有 $this 这一个样式，因为$表示声明变量，即$this表示的是当前变量元素
+## 16.methods与computed的区别：
+    computed 和 methods虽然都可以实现对数据的计算,但两者有一定的区别:
+
+    methods:使用methods方法可以接受外部传参,使用更加灵活
+    computed:
+        计算属性computed的亮点在于:它能够依赖缓存
+        当计算属性所依赖的数据发生改变时,才会重新触发计算属性方法执行
+        所以对于较复杂或消耗效率的计算,一定要采用计算属性
+        
+        使用methods的方法,每次页面刷新都会触发方法的执行
+        而使用计算属性,只要依赖的数据没有变化,就会直接从缓存中读取结果,不需要重新计算
+        这种做法可以提升效率更可以带来更好的用户体验
+        
+## 17.组件通过props传参
+> 1.组件不仅可以封装复用模板内容,还可以使用外部传递的参数,进而实现组件间通信这种父组件向子组件正向传递参数可以通过props实现（子组件不能直接调用父组件的值）
+
+> 2.接受来自父组件的参数（其实也可以多值绑定）
+
+    <div id="app">
+        <my-component message="父组件通过props传递参数" msg="hello world"></my-component>  // 这里的message为绑定的props
+    </div>
+    
+    <script type="text/javascript">
+        Vue.component('my-component',{
+            props: ['message','msg']，   // 声明一个props对象
+            template: '<div>{{ message }} : {{msg}}</div>'  // template组件，声明模板对象
+        });
+    
+        const vm = new Vue({
+            el: '#app'
+        })
+    </script>
+
+> 2.props接受动态数据
+有时候组件接收的参数是来自父组件的动态数据,需要使用v-bind动态绑定props值
+
+    <div id="app">
+        <input type="text" v-model="parentInputText" placeholder="请输入...">
+        <my-component :message="parentInputText"></my-component>
+    </div>
+    
+    <script type="text/javascript">
+        Vue.component('my-component',{
+            props:['message'],
+            template:'<div>{{ message }}</div>'
+        });
+    
+        const vm = new Vue({
+            el: '#app',
+            data:{
+                parentInputText:''
+            }
+        })
+    </script>
+
+## 18.使用ref获取DOM元素和组建引用
+
 
 ### 相关文章
 1. [vue.js 1.x 文档](https://v1-cn.vuejs.org/)
