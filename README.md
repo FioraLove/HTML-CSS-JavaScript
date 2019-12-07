@@ -61,6 +61,14 @@
 			<source src="../static_audio/yiluxiangbei.ogg" type="audio/ogg">
 			<embed height="50" width="100" src="../static_audio/yiluxiangbei.mp3">
 		</audio>
+		
+		<audio>标签的属性值有：
+		autoplay：如果设置该属性，音频将自动播放，值为：autoplay；
+		controls：如果设置该属性，则显示音频控件（播放/暂停按钮），值：controls；
+		loop：如果设置该属性，则音频重复播放，值为：loop；
+		muted：如果设置该属性，则音频输出为静音，值：muted；
+		preload：规定当网页加载时，音频是否默认被加载以及如何被加载。值：auto/metadata/none；
+		src：规定音频文件的地址；
 ### 易错易混点
 ##### -1.css样式的overflow-x：对边框中的溢出的内容进行隐藏
 		div{
@@ -182,3 +190,5 @@
 	
 ##### tips
     1.HTML下的表单标签中的<input>便签的values属性：赋值初始（默认）值给 HTML 表单
+##### readme文件的伪徽章样式,[参考代码](https://github.com/FioraLove/HTML-CSS-JavaScript/blob/master/html/readme%E7%9A%84%E4%BC%AA%E5%BE%BD%E7%AB%A0%E6%A0%B7%E5%BC%8F.html)
+![实际样式](https://cdn.jsdelivr.net/gh/FioraLove/Images/D:/data/images20191207103058.png)
