@@ -468,5 +468,32 @@
         $text   = "\t\tThese are a few words :) ...  ";
         $trimmed = trim($text);  // 指定首尾的空字符串
         $trimmed = trim($text, " \t.");  //去除首尾特定的字符串
->2.
+   >2.$data = split('分隔符',目标字符串)：参数一表示以特定的字符来分割目标字符串
+   
+       // 分隔符能够是斜线，点，或横线 
+       $date = "04/30/1973";  
+       list($month, $day, $year) = split ('[/.-]', $date); 
+   
+   >3.oracle的replace()函数
+        
+        replace(原字段，“原字段旧内容“,“原字段新内容“,)
+        select replace(原字段，“原字段旧内容“,“原字段新内容“,) from table_name 
+   
+   > 4.[intvar](https://blog.csdn.net/zhanghao143lina/article/details/73159428) 将字符串转换为整形
+   
+       若字符串的首位字符不是字符串，则返回值为0 
+       eg：
+       intval("12ab3") 返回的是12
+
+        intval("ab123")返回的是0
+        
+        intval("-1ab2")返回的是-1
+        
+        intval(12.3223)=12
+        
+        intval("100", 2) = 4     100按照2进制看就是4
+        
+        intval(array()) = 0
+        
+        intval(array(1,2)) = 1
    
