@@ -459,7 +459,77 @@
      $e_date = date('Y-m-d H:i:s'); // 表示获取当前具体的时间
      $e_date = date('Y-m-d', strtotime ("+1 day", strtotime('2017-11-11'))); // 表示将某一个字符串时间转换为目标时间格式
       
+## 22.PHP连接数据库（区分于thinkPHP连接数据库）
 
+>1.为什么要使用PDO：增加数据库连接扩展，是程序连接数据库的方法之一
+
+    PDO是PHP5新加入的一个重大功能，我们的数据库服务器为MySQL，所有的程序代码的数据库操作全是一mysql()或者mysqli()函数来操作，
+    当我们的数据库 需要更换时比如换成，SQL SERVER、PostgreSQL、MS 等，我们不可能去修改所有的程序代码！所以就要用到PDO，
+    PDO很好的帮我们解决了这个问题，使用PDO操作非常方便，只需要修改数据源格式，和加载相应的驱动文件到PHP.ini即可；
+    ————————————————
+
+>`2.PDO连接数据库`[PDO(php data object)](https://blog.csdn.net/jia_1418422386/article/details/80394840)连接MySQL
+
+```方式一：借由mysqli```
+    <?php 
+        $servername = 'localhost';
+        $username = 'username';
+        $password = 'password';
+        $db_name = 'NMSL';
+        // 创建连接
+        $conn = mysqli($servername, $username, $password,$db_name); 
+        // 检测连接
+        if (!$conn) {
+            die("Connection failed: " . mysqli_error());
+        }
+        echo "连接成功";
+    ?>
+``` 方式二：PDO```    
+    $DSN = 'mysql:host=localhost;dbname=demo;charset=utf-8';
+    $pdo = new PDO($DSN,'username','password');  // 表示已连接了数据库
+    
+>3.设置PDO在处理数据的过程中采用什么方式去处理
+    
+    setAttribute()方法是设置部分属性，主要属性有：PDO::ATTR_CASE、PDO::ATTR_ERRMODE等，我们设置的是PDO::ATTR_CASE(使用关联索引获取数据)
+    
+    PDO::ATTR_CASE：强制列名为指定的大小写。他的$value可为：
+    
+    　　PDO::CASE_LOWER：强制列名小写。
+    
+    　　PDO::CASE_NATURAL：保留数据库驱动返回的列名。
+    
+    　　PDO::CASE_UPPER：强制列名大写。
+   
+    PDO::ATTR_ERRMODE：错误报告。他的$value可为：
+    
+    　　PDO::ERRMODE_SILENT： 仅设置错误代码。
+    
+    　　PDO::ERRMODE_WARNING: 引发 E_WARNING 错误
+    
+    　　PDO::ERRMODE_EXCEPTION: 抛出 exceptions 异常。
+    
+    PDO::ATTR_ORACLE_NULLS （在所有驱动中都可用，不仅限于Oracle）： 转换 NULL 和空字符串。他的$value可为：
+    
+    　　PDO::NULL_NATURAL: 不转换。
+    
+    　　PDO::NULL_EMPTY_STRING： 将空字符串转换成 NULL 。
+    
+    　　PDO::NULL_TO_STRING: 将 NULL 转换成空字符串。
+
+> 4.数据库操作：exec(不返回数据集，即insert，update，delete)与query(仅执行带结果返回的，即select)方法
+    
+    <?php
+    /* 连接数据库*/
+    $DSN = 'mysql:host=localhost;dbname=demo;charset=utf-8';
+    $pdo = new PDO($DSN,'username','password'); 
+    
+    /*  删除 FRUIT 数据表中满足条件的所有行~exec方法 */
+    $count = $pdo->exec("DELETE FROM fruit WHERE colour = 'red'");
+    
+    /* 返回被删除的行数 */
+    print("Deleted $count rows.\n");
+    ?> 
+    
 
 #### tips:
 
