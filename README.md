@@ -117,7 +117,25 @@
 					--：fixed 固定图像，不随页面滚动而滚动
 
 		background-position：right top left bottom (可多个组合)
+		background-size: 规定背景图像的尺寸
+拓：背景图片自适应窗口大小案例		
 
+```
+<!--背景图片自适应窗口大小-->
+<head>
+<style>
+    body{
+        background-image: url(./public/images/5bbd6378a1fdc.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        position:fixed;
+        background-size: 100%;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+</head>
+```
 
 ##### -6 CSS：text-align：文本对齐方式
 		text-align：    left	    把文本排列到左边。默认值：由浏览器决定。
