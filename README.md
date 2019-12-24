@@ -128,10 +128,8 @@
         background-image: url(./public/images/5bbd6378a1fdc.jpg);
         background-repeat: no-repeat;
         background-attachment: fixed;
-        position:fixed;
         background-size: 100%;
-        width: 100%;
-        height: 100%;
+		position: relative; // 可以选择不写
     }
 </style>
 </head>
